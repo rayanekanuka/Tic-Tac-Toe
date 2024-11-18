@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Player {
+public abstract class Player {
     private String name;
     private char symbole;
     

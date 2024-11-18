@@ -8,17 +8,21 @@ public class TicTacToe {
     private Player playerO;
 
     // Initialise le plateau de jeu et les joueurs
-    public TicTacToe(boolean isArtificialPlayer) {
+    public TicTacToe(int gameMode) {
         board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 board[i][j] = new Cell();
             }
         }
-        if (isArtificialPlayer) {
-            playerX = new HumanPlayer("Hey Humain", 'X');
-            playerO = new ArtificialPlayer("Hello le Bot", 'O');
-        } else {
+        // Choix des joueurs en fonction du mode de jeu
+        if (gameMode == 1) { // 1 humain vs 1 IA
+            playerX = new HumanPlayer("Humain", 'X');
+            playerO = new ArtificialPlayer("Bot", 'O');
+        } else if (gameMode == 2) { // 2 IA
+            playerX = new ArtificialPlayer("Bot X", 'X');
+            playerO = new ArtificialPlayer("Bot O", 'O');
+        } else { // 2 humains
             playerX = new HumanPlayer("Joueur X", 'X');
             playerO = new HumanPlayer("Joueur O", 'O');
         }
@@ -77,8 +81,7 @@ public class TicTacToe {
 
     // Attribue une cellule à un joueur
     public void setOwner(int row, int col, Player player) {
-        board[row][col].setRepresentation(String.valueOf(player.getSymbole())); // Attribue le symbole du joueur à la
-                                                                                // cellule
+        board[row][col].setRepresentation(String.valueOf(player.getSymbole())); // Attribue le symbole du joueur à la cellule
     }
 
     // Passe au joueur suivant
@@ -152,12 +155,9 @@ public class TicTacToe {
 
     // Lance le jeu
     public void play() {
+        decoration(); // Affiche le Titre
         while (true) {
-            decoration(); // Affiche le Titre
-            System.out.println("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")"); // Affiche
-                                                                                                                // le
-                                                                                                                // joueur
-                                                                                                                // actuel
+            System.out.println("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")"); // Affiche le joueur actuel
             display(); // Affiche le plateau de jeu
 
             int[] move;
