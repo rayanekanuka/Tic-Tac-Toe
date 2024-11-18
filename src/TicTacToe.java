@@ -25,13 +25,14 @@ public class TicTacToe {
             for (int i = 0; i < size; i++) {
                 System.out.print("|");
                 for (int j = 0; j < size; j++) {
-                    System.out.print(" " + board[i][j].getRepresentation() + " |");
+                    System.out.print("  " + board[i][j].getRepresentation() + "  |");
                 }
                 System.out.println();
                 if (i < size - 1) {
-                    System.out.println("------------");
+                    System.out.println("-------------------");
                 }
             }
+            System.out.println();
         }
     
         // Demande au joueur de saisir un coup
@@ -85,7 +86,7 @@ public class TicTacToe {
 
         public void endGame(String message) {
             display(); // Affiche le plateau de jeu
-            System.out.println("Merci d'avoir joué !");
+            System.out.println("\nMerci d'avoir joué !\n");
         }
 
         // Lance le jeu
