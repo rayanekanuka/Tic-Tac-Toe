@@ -1,4 +1,4 @@
-import java.util.Scanner;
+package player;
 
 public abstract class Player {
     private String name;

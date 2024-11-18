@@ -1,3 +1,4 @@
+package board;
 public class Cell {
     private String representation;
     

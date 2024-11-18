@@ -1,4 +1,10 @@
+package model;
 import java.util.Scanner;
+
+import board.Cell;
+import player.ArtificialPlayer;
+import player.HumanPlayer;
+import player.Player;
 
 public class TicTacToe {
     private int size = 3;
@@ -41,11 +47,11 @@ public class TicTacToe {
         for (int i = 0; i < size; i++) {
             System.out.print("  " + (i + 1) + " "); // Affiche les indices de lignes
             for (int j = 0; j < size; j++) {
-                System.out.print("|  " + board[i][j].getRepresentation() + "  |");
+                System.out.print("|  " + board[i][j].getRepresentation() + "  ");
             }
-            System.out.println();
+            System.out.println("|");
             if (i < size - 1) {
-                System.out.println("    ---------------------"); // Ligne de séparation
+                System.out.println("    -------------------"); // Ligne de séparation
             }
         }
         System.out.println();

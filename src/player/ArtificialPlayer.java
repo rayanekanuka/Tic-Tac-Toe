@@ -1,4 +1,7 @@
+package player;
 import java.util.Random;
+
+import board.Cell;
 
 public class ArtificialPlayer extends Player {
 
