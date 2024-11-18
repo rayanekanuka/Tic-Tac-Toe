@@ -21,19 +21,26 @@ public class TicTacToe {
     }
 
     // Affiche le plateau de jeu
-        public void display() {
-            for (int i = 0; i < size; i++) {
-                System.out.print("|");
-                for (int j = 0; j < size; j++) {
-                    System.out.print("  " + board[i][j].getRepresentation() + "  |");
-                }
-                System.out.println();
-                if (i < size - 1) {
-                    System.out.println("-------------------");
-                }
+    public void display() {
+        System.out.print("   "); // Pour l'alignement de l'affichage des indices de colonnes
+        for (int i = 1; i <= size; i++) {
+            System.out.print("   " + i + "   "); // Affiche les indices de colonnes
+        }
+        System.out.println();
+        
+        for (int i = 0; i < size; i++) {
+            System.out.print("  " + (i + 1) + " "); // Affiche les indices de lignes
+            for (int j = 0; j < size; j++) {
+                System.out.print("|  " + board[i][j].getRepresentation() + "  |");
             }
             System.out.println();
+            if (i < size - 1) {
+                System.out.println("    ---------------------"); // Ligne de séparation
+            }
         }
+        System.out.println();
+    }
+
     
         // Demande au joueur de saisir un coup
         public int[] getMoveFromPlayer() {
@@ -42,19 +49,19 @@ public class TicTacToe {
     
             while (true) {
                 try {
-                    System.out.print(currentPlayer.getName() + " (" + currentPlayer.getSymbole() + "), entrez votre coup (ligne et colonne) : ");
-                    row = scanner.nextInt() - 1;
+                    System.out.print(currentPlayer.getName() + " (" + currentPlayer.getSymbole() + "), entrez votre coup (ligne et colonne avec un espace) : ");
+                    row = scanner.nextInt() - 1; // Décrémente pour obtenir des indices à partir de 0
                     col = scanner.nextInt() - 1;
     
                     if (row < 0 || row >= size || col < 0 || col >= size) {
-                        System.out.println("Coordonnées hors plateau. Réessayez =) ");
+                        System.out.println("\nCoordonnées hors plateau. Réessayez =)\n");
                     } else if (!board[row][col].isEmpty()) {
-                        System.out.println("Cellule déjà occupée. Réessayez =)");
+                        System.out.println("\nCellule déjà occupée. Réessayez =)\n");
                     } else {
                         break; // Coordonnées valides
                     }
                 } catch (Exception e) {
-                    System.out.println("Entrée invalide =(. Assurez-vous de saisir deux nombres entiers.");
+                    System.out.println("\nEntrée invalide =(. Assurez-vous de saisir deux nombres entiers.\n");
                     scanner.nextLine(); 
                 }
             }
@@ -81,26 +88,64 @@ public class TicTacToe {
                 }
             }
         }
+        System.out.println("\nLe plateau est rempli. Merci d'avoir joué !\n Le jeu est terminé !\n");
         return true; // Plateau plein
         }
 
+        public boolean isOver() {
+            // Vérifie les colonnes
+            for (int i = 0; i < size; i++) {
+                if (board[i][0].getRepresentation().equals(board[i][1].getRepresentation()) && board[i][1].getRepresentation().equals(board[i][2].getRepresentation()) && !board[i][0].isEmpty()) {
+                    endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                    return true;
+                }
+            }
+            // Vérifie les lignes
+            for (int i = 0; i < size; i++) {
+                if (board[0][i].getRepresentation().equals(board[1][i].getRepresentation()) && board[1][i].getRepresentation().equals(board[2][i].getRepresentation()) && !board[0][i].isEmpty()) {
+                    endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                    return true;
+                }
+            }
+            // Vérifie les diagonales
+            for (int i = 0; i < size; i++) {
+                if (board[0][0].getRepresentation().equals(board[1][1].getRepresentation()) && board[1][1].getRepresentation().equals(board[2][2].getRepresentation()) && !board[0][0].isEmpty()) {
+                    endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                    return true;
+                }
+                if (board[0][2].getRepresentation().equals(board[1][1].getRepresentation()) && board[1][1].getRepresentation().equals(board[2][0].getRepresentation()) && !board[0][2].isEmpty()) {
+                    endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                    return true;
+                }
+            }
+
+            // Vérifie si le plateau est plein
+            if (isBoardFull()) {
+                endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
+                return true;
+            }
+
+            return false; // La partie continue
+        }
+
+
         public void endGame(String message) {
             display(); // Affiche le plateau de jeu
-            System.out.println("\nMerci d'avoir joué !\n");
+            System.out.println(message); // Affiche le message de fin
+            System.out.println("\n Merci d'avoir joué  =)\n Le jeu est terminé !\n");
         }
 
         // Lance le jeu
         public void play() {
             while (true) {
                 decoration(); // Affiche le Titre
-                System.out.println("Tour de " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")"); // Affiche le joueur actuel
+                System.out.println("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")"); // Affiche le joueur actuel
                 display(); // Affiche le plateau de jeu
                 int[] move = getMoveFromPlayer(); // Demande au joueur de saisir un coup
                 setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
 
-                // Vérifie si le joueur a gagné
-                if (isBoardFull()) {
-                    endGame("Le jeu est terminé ! Le plateau est rempli.");
+                // Vérifie si le joueur a gagné ou si la partie est terminée
+                if (isOver()) {
                     break; // Fin du jeu
                 }
                 switchPlayer(); // Passe au joueur suivant
