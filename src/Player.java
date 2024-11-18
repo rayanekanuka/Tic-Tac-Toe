@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Player {
     private String name;
     private char symbole;
@@ -6,7 +8,6 @@ public class Player {
         this.name = name;
         this.symbole = symbole;
     }
-
 
     /*-- GETTERS AND SETTERS --*/
     
