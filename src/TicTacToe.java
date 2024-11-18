@@ -7,7 +7,7 @@ public class TicTacToe {
     private Player playerX;
     private Player playerO;
 
-    // Constructeur
+    // Initialise le plateau de jeu et les joueurs
     public TicTacToe() {
         board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
@@ -46,15 +46,15 @@ public class TicTacToe {
                     col = scanner.nextInt() - 1;
     
                     if (row < 0 || row >= size || col < 0 || col >= size) {
-                        System.out.println("Coordonnées hors plateau. Réessayez.");
+                        System.out.println("Coordonnées hors plateau. Réessayez =) ");
                     } else if (!board[row][col].isEmpty()) {
-                        System.out.println("Cellule déjà occupée. Réessayez.");
+                        System.out.println("Cellule déjà occupée. Réessayez =)");
                     } else {
                         break; // Coordonnées valides
                     }
                 } catch (Exception e) {
-                    System.out.println("Entrée invalide. Assurez-vous de saisir deux nombres entiers.");
-                    scanner.nextLine(); // Vide le buffer
+                    System.out.println("Entrée invalide =(. Assurez-vous de saisir deux nombres entiers.");
+                    scanner.nextLine(); 
                 }
             }
     
@@ -71,14 +71,37 @@ public class TicTacToe {
             currentPlayer = (currentPlayer == playerX) ? playerO : playerX;
         }
 
+        // Vérifie si le plateau est plein (aucune cellule vide)
+        public boolean isBoardFull() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j].isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true; // Plateau plein
+        }
+
+        public void endGame(String message) {
+            display(); // Affiche le plateau de jeu
+            System.out.println("Merci d'avoir joué !");
+        }
+
         // Lance le jeu
         public void play() {
             while (true) {
-                decoration();
-                System.out.println("Tour de " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")");
+                decoration(); // Affiche le Titre
+                System.out.println("Tour de " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")"); // Affiche le joueur actuel
                 display(); // Affiche le plateau de jeu
                 int[] move = getMoveFromPlayer(); // Demande au joueur de saisir un coup
                 setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
+
+                // Vérifie si le joueur a gagné
+                if (isBoardFull()) {
+                    endGame("Le jeu est terminé ! Le plateau est rempli.");
+                    break; // Fin du jeu
+                }
                 switchPlayer(); // Passe au joueur suivant
             }
         }
