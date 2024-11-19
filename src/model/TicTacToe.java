@@ -8,6 +8,9 @@ import player.HumanPlayer;
 import player.Player;
 import view.GameView;
 
+/**
+ * Classe représentant le jeu de Tic-Tac-Toe.
+ */
 public class TicTacToe {
     private int size = 3;
     private Cell[][] board;
@@ -16,12 +19,20 @@ public class TicTacToe {
     private Player playerO;
     private GameView view;
 
+    /**
+     * Constructeur de la classe TicTacToe.
+     * 
+     * @param view L'instance de GameView utilisée pour afficher le jeu.
+     */
+
     public TicTacToe(GameView view) {
         this.view = view;
         initBoard();
     }
 
-    // Initialisation du plateau de jeu
+    /**
+     * Initialise le plateau de jeu.
+     */
     private void initBoard() {
         board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
@@ -31,7 +42,12 @@ public class TicTacToe {
         }
     }
 
-    // Choix des joueurs en fonction du mode de jeu
+    /**
+     * Choisit les joueurs en fonction du mode de jeu.
+     * 
+     * @param gameMode Le mode de jeu choisi (1: Humain vs Bot, 2: Bot vs Bot, 3:
+     *                 Humain vs Humain).
+     */
     public void playerChoice(int gameMode) {
         if (gameMode == 1) { // 1 humain vs 1 Bot
             playerX = new HumanPlayer("Humain", 'X');
@@ -47,7 +63,11 @@ public class TicTacToe {
         currentPlayer = playerX;
     }
 
-    // Lance le jeu
+    /**
+     * Lance le jeu.
+     * 
+     * @param gameMode Le mode de jeu choisi.
+     */
     public void play(int gameMode) {
         playerChoice(gameMode); // Choix des joueurs
 
@@ -84,7 +104,11 @@ public class TicTacToe {
         }
     }
 
-    // Demande au joueur de saisir un coup
+    /**
+     * Demande au joueur de saisir un coup.
+     * 
+     * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
+     */
     public int[] getMoveFromPlayer() {
         Scanner scanner = new Scanner(System.in);
         int row = -1, col = -1;
@@ -111,18 +135,30 @@ public class TicTacToe {
         return new int[] { row, col };
     }
 
-    // Attribue une cellule à un joueur
+    /**
+     * Attribue une cellule à un joueur.
+     * 
+     * @param row    La ligne de la cellule.
+     * @param col    La colonne de la cellule.
+     * @param player Le joueur à qui attribuer la cellule.
+     */
     public void setOwner(int row, int col, Player player) {
         // Attribue le symbole du joueur à la cellule
         board[row][col].setRepresentation(String.valueOf(player.getSymbole()));
     }
 
-    // Passe au joueur suivant
+    /**
+     * Passe au joueur suivant.
+     */
     public void switchPlayer() {
         currentPlayer = (currentPlayer == playerX) ? playerO : playerX;
     }
 
-    // Vérifie si le plateau est plein (aucune cellule vide)
+    /**
+     * Vérifie si le plateau est plein (aucune cellule vide).
+     * 
+     * @return true si le plateau est plein, false sinon.
+     */
     public boolean isBoardFull() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -131,10 +167,14 @@ public class TicTacToe {
                 }
             }
         }
-        return true; // Plateau plein
+        return true;
     }
 
-    // Vérifie les conditions de victoire et si la partie est terminée
+    /**
+     * Vérifie les conditions de victoire et si la partie est terminée.
+     * 
+     * @return true si la partie est terminée, false sinon.
+     */
     public boolean isOver() {
         // Vérifie les colonnes
         for (int i = 0; i < size; i++) {
