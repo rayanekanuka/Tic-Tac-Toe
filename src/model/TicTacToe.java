@@ -1,10 +1,13 @@
 package model;
+
 import java.util.Scanner;
 
 import board.Cell;
 import player.ArtificialPlayer;
 import player.HumanPlayer;
 import player.Player;
+import view.Menu;
+import view.GameView;
 
 public class TicTacToe {
     private int size = 3;
@@ -12,20 +15,29 @@ public class TicTacToe {
     private Player currentPlayer;
     private Player playerX;
     private Player playerO;
+    private GameView view;
 
-    // Initialise le plateau de jeu et les joueurs
-    public TicTacToe(int gameMode) {
+    public TicTacToe(GameView view) {
+        this.view = view;
+        initBoard();
+    }
+
+    // Initialisation du plateau de jeu
+    private void initBoard() {
         board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 board[i][j] = new Cell();
             }
         }
-        // Choix des joueurs en fonction du mode de jeu
-        if (gameMode == 1) { // 1 humain vs 1 IA
+    }
+
+    // Choix des joueurs en fonction du mode de jeu
+    public void playerChoice(int gameMode) {
+        if (gameMode == 1) { // 1 humain vs 1 Bot
             playerX = new HumanPlayer("Humain", 'X');
             playerO = new ArtificialPlayer("Bot", 'O');
-        } else if (gameMode == 2) { // 2 IA
+        } else if (gameMode == 2) { // 2 Bots
             playerX = new ArtificialPlayer("Bot X", 'X');
             playerO = new ArtificialPlayer("Bot O", 'O');
         } else { // 2 humains
@@ -36,25 +48,41 @@ public class TicTacToe {
         currentPlayer = playerX;
     }
 
-    // Affiche le plateau de jeu
-    public void display() {
-        System.out.print("   "); // Pour l'alignement de l'affichage des indices de colonnes
-        for (int i = 1; i <= size; i++) {
-            System.out.print("   " + i + "   "); // Affiche les indices de colonnes
-        }
-        System.out.println();
+    // Lance le jeu
+    public void play(int gameMode) {
+        view.decoration(); // Affiche le Titre
+        playerChoice(gameMode); // Choix des joueurs
 
-        for (int i = 0; i < size; i++) {
-            System.out.print("  " + (i + 1) + " "); // Affiche les indices de lignes
-            for (int j = 0; j < size; j++) {
-                System.out.print("|  " + board[i][j].getRepresentation() + "  ");
+        while (true) {
+            view.displayMessage("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")");
+            view.displayBoard(board);
+
+            int[] move;
+
+            // Demande au joueur de saisir un coup ou laisse l'IA choisir un coup
+            if (currentPlayer instanceof HumanPlayer) {
+                move = getMoveFromPlayer();
+            } else {
+                move = ((ArtificialPlayer) currentPlayer).getMove(board, size); // Laisse l'IA choisir un coup
             }
-            System.out.println("|");
-            if (i < size - 1) {
-                System.out.println("    -------------------"); // Ligne de séparation
+
+            wait(1000); // Pause de 1 seconde
+            setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
+
+            // Vérifie si le joueur a gagné ou si la partie est terminée
+            if (isOver()) {
+                break;
             }
+            switchPlayer();
         }
-        System.out.println();
+    }
+
+    public static void wait(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     // Demande au joueur de saisir un coup
@@ -64,20 +92,19 @@ public class TicTacToe {
 
         while (true) {
             try {
-                System.out.print(currentPlayer.getName() + " (" + currentPlayer.getSymbole()
-                        + "), entrez votre coup (ligne et colonne avec un espace) : ");
+                view.displayPlayerMove(currentPlayer.getName(), currentPlayer.getSymbole());
                 row = scanner.nextInt() - 1; // Décrémente pour obtenir des indices à partir de 0
                 col = scanner.nextInt() - 1;
 
                 if (row < 0 || row >= size || col < 0 || col >= size) {
-                    System.out.println("\nCoordonnées hors plateau. Réessayez =)\n");
+                    view.displayInvalidCoordinates();
                 } else if (!board[row][col].isEmpty()) {
-                    System.out.println("\nCellule déjà occupée. Réessayez =)\n");
+                    view.displayOccupiedCell();
                 } else {
                     break; // Coordonnées valides
                 }
             } catch (Exception e) {
-                System.out.println("\nEntrée invalide =(. Assurez-vous de saisir deux nombres entiers.\n");
+                view.displayInvalidInput();
                 scanner.nextLine();
             }
         }
@@ -87,7 +114,8 @@ public class TicTacToe {
 
     // Attribue une cellule à un joueur
     public void setOwner(int row, int col, Player player) {
-        board[row][col].setRepresentation(String.valueOf(player.getSymbole())); // Attribue le symbole du joueur à la cellule
+        // Attribue le symbole du joueur à la cellule
+        board[row][col].setRepresentation(String.valueOf(player.getSymbole()));
     }
 
     // Passe au joueur suivant
@@ -104,7 +132,7 @@ public class TicTacToe {
                 }
             }
         }
-        System.out.println("\nLe plateau est rempli. Merci d'avoir joué !\n Le jeu est terminé !\n");
+        view.endGame("\nLe plateau est rempli. Merci d'avoir joué !\n Le jeu est terminé !\n");
         return true; // Plateau plein
     }
 
@@ -115,7 +143,7 @@ public class TicTacToe {
             if (board[i][0].getRepresentation().equals(board[i][1].getRepresentation())
                     && board[i][1].getRepresentation().equals(board[i][2].getRepresentation())
                     && !board[i][0].isEmpty()) {
-                endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
                 return true;
             }
         }
@@ -124,7 +152,7 @@ public class TicTacToe {
             if (board[0][i].getRepresentation().equals(board[1][i].getRepresentation())
                     && board[1][i].getRepresentation().equals(board[2][i].getRepresentation())
                     && !board[0][i].isEmpty()) {
-                endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
                 return true;
             }
         }
@@ -133,69 +161,23 @@ public class TicTacToe {
             if (board[0][0].getRepresentation().equals(board[1][1].getRepresentation())
                     && board[1][1].getRepresentation().equals(board[2][2].getRepresentation())
                     && !board[0][0].isEmpty()) {
-                endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
                 return true;
             }
             if (board[0][2].getRepresentation().equals(board[1][1].getRepresentation())
                     && board[1][1].getRepresentation().equals(board[2][0].getRepresentation())
                     && !board[0][2].isEmpty()) {
-                endGame("\nLe " + currentPlayer.getName() + " a gagné !");
+                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
                 return true;
             }
         }
-
         // Vérifie si le plateau est plein
         if (isBoardFull()) {
-            endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
+            view.endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
             return true;
         }
 
         return false; // La partie continue
-    }
-
-    public void endGame(String message) {
-        display(); // Affiche le plateau de jeu
-        System.out.println(message); // Affiche le message de fin
-        System.out.println("\n Merci d'avoir joué  =)\n Le jeu est terminé !\n");
-    }
-
-    // Lance le jeu
-    public void play() {
-        decoration(); // Affiche le Titre
-        while (true) {
-            System.out.println("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")"); // Affiche le joueur actuel
-            display(); // Affiche le plateau de jeu
-
-            int[] move;
-
-            if (currentPlayer instanceof HumanPlayer) {
-                move = getMoveFromPlayer();
-            } else {
-                move = ((ArtificialPlayer) currentPlayer).getMove(board, size); // Laisse l'IA choisir un coup
-                System.out.println(currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ") a joué en ["
-                        + (move[0] + 1) + ", " + (move[1] + 1) + "]");
-            }
-
-            setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
-
-            // Vérifie si le joueur a gagné ou si la partie est terminée
-            if (isOver()) {
-                break; // Fin du jeu
-            }
-            switchPlayer(); // Passe au joueur suivant
-        }
-    }
-
-    public void decoration() {
-        System.out.println("####### ###  #####     #######    #     #####     ####### ####### #######\r\n" + //
-                "   #     #  #     #       #      # #   #     #       #    #     # #\r\n" + //
-                "   #     #  #             #     #   #  #             #    #     # #\r\n" + //
-                "   #     #  #             #    #     # #             #    #     # #####\r\n" + //
-                "   #     #  #             #    ####### #             #    #     # #\r\n" + //
-                "   #     #  #     #       #    #     # #     #       #    #     # #\r\n" + //
-                "   #    ###  #####        #    #     #  #####        #    ####### #######\r\n" + //
-                "\r\n" + //
-                "");
     }
 
 }
