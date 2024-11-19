@@ -6,7 +6,6 @@ import board.Cell;
 import player.ArtificialPlayer;
 import player.HumanPlayer;
 import player.Player;
-import view.Menu;
 import view.GameView;
 
 public class TicTacToe {
@@ -50,10 +49,10 @@ public class TicTacToe {
 
     // Lance le jeu
     public void play(int gameMode) {
-        view.decoration(); // Affiche le Titre
         playerChoice(gameMode); // Choix des joueurs
 
         while (true) {
+            view.decoration();
             view.displayMessage("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")");
             view.displayBoard(board);
 
@@ -66,8 +65,8 @@ public class TicTacToe {
                 move = ((ArtificialPlayer) currentPlayer).getMove(board, size); // Laisse l'IA choisir un coup
             }
 
-            wait(1000); // Pause de 1 seconde
             setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
+            wait(1000); // Pause de 1 seconde
 
             // Vérifie si le joueur a gagné ou si la partie est terminée
             if (isOver()) {
@@ -132,7 +131,6 @@ public class TicTacToe {
                 }
             }
         }
-        view.endGame("\nLe plateau est rempli. Merci d'avoir joué !\n Le jeu est terminé !\n");
         return true; // Plateau plein
     }
 

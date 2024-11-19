@@ -23,7 +23,7 @@ public class Menu {
         if (choix == 1) {
             startGame();
         } else {
-            System.out.println("Merci d'avoir joué !");
+            System.out.println("\nMerci d'avoir joué (^_^)");
         }
     }
 

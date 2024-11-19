@@ -60,8 +60,8 @@ public class GameView {
 
     // Affiche le message de fin de partie
     public void endGame(String message) {
-        System.out.println(message); // Affiche le message de fin
-        System.out.println("\n Merci d'avoir joué  =)\n Le jeu est terminé !\n");
+        System.out.println(message);
+        System.out.println("\nMerci d'avoir joué (^_^)\n");
     }
 
 }
