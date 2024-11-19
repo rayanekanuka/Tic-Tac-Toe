@@ -2,10 +2,10 @@ package model;
 
 import java.util.Scanner;
 
-import board.Cell;
-import player.ArtificialPlayer;
-import player.HumanPlayer;
-import player.Player;
+import model.board.Cell;
+import model.player.ArtificialPlayer;
+import model.player.HumanPlayer;
+import model.player.Player;
 import view.GameView;
 
 /**
