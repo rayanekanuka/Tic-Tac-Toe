@@ -9,9 +9,14 @@ Ce jeu propose une interface console simple où deux joueurs peuvent jouer l'un 
 ## 🛠️ Fonctionnalités
 
 - Jouez à **Tic-Tac-Toe** sur un plateau de 3x3.
+- Modes de jeu disponibles :
+  - Humain vs Bot
+  - Bot vs Bot
+  - Humain vs Humain
 - Vérification des conditions de victoire (lignes, colonnes, diagonales).
 - Le jeu se termine si un joueur gagne ou si le plateau est plein.
 - Messages d'invite clairs pour guider les joueurs dans leurs mouvements.
+- Affichage des messages de fin de partie avec des émoticônes en ASCII.
 
 ## 🚀 Installation
 
@@ -22,42 +27,28 @@ Ce jeu propose une interface console simple où deux joueurs peuvent jouer l'un 
 
 2. Ouvrez le projet dans votre IDE préféré (par exemple, IntelliJ IDEA, Eclipse, ou VSCode avec l'extension Java).
 
-3. Compilez et exécutez le fichier `TicTacToe.java`.
+3. Compilez et exécutez le fichier `Main.java`.
 
-## 🖥️ Utilisation
+## 📋 Utilisation
 
-1. Lancez le programme en exécutant la classe `TicTacToe`.
-   
-2. Suivez les instructions dans la console pour jouer. Les joueurs entreront leurs coups sous la forme de deux entiers (ligne et colonne), séparés par un espace.
+1. Lancez le programme en exécutant la classe `Main`.
+2. Suivez les instructions à l'écran pour choisir le mode de jeu :
+   - 1 : Humain vs Bot
+   - 2 : Bot vs Bot
+   - 3 : Humain vs Humain
+3. Entrez les coups en spécifiant les coordonnées (ligne et colonne) lorsque c'est votre tour.
+4. Le jeu affichera le plateau après chaque coup et indiquera le gagnant ou si la partie est nulle.
 
-3. Le jeu continue jusqu'à ce qu'un joueur gagne ou que le plateau soit plein.
+## 📂 Structure du projet
 
-## 📜 Règles du jeu
+- `model/` : Contient les classes représentant la logique du jeu (TicTacToe, Player, HumanPlayer, ArtificialPlayer, Cell).
+- `view/` : Contient les classes responsables de l'affichage du jeu (GameView, Menu).
+- `Main.java` : Point d'entrée du programme.
 
-- Deux joueurs s'affrontent : **Joueur X** et **Joueur O**.
-- Les joueurs choisissent à tour de rôle une case vide sur le plateau pour y placer leur symbole.
-- Le premier à aligner trois de ses symboles horizontalement, verticalement ou en diagonale gagne la partie.
-- Si toutes les cases sont remplies sans alignement, la partie se termine par un match nul.
+## 📝 Licence
 
-## 📁 Structure du projet
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
-TicTacToe │ 
-├── TicTacToe.java # Contient la logique du jeu et les règles 
-├── Player.java # Classe pour gérer les joueurs 
-├── Cell.java # Représente chaque cellule du plateau 
-└── README.md # Documentation du projet
+## ❤️ Remerciements
 
-## 👾 Auteurs
-
-- [Rayane Kanuka](https://github.com/rayanekanuka) - Créateur du projet
-- [Collaborateurs éventuels] - Contributions
-
-## 💬 Contribuer
-
-Si vous souhaitez améliorer ce projet, n'hésitez pas à ouvrir une **pull request**. Toute contribution est la bienvenue !
-
-1. Forkez ce projet.
-2. Créez votre branche (`git checkout -b feature-nouvelle-fonctionnalite`).
-3. Committez vos modifications (`git commit -am 'Ajout d'une nouvelle fonctionnalité'`).
-4. Pushez vers la branche (`git push origin feature-nouvelle-fonctionnalite`).
-5. Ouvrez une pull request.
+Merci d'avoir joué à ce jeu de Tic-Tac-Toe en Java ! Amusez-vous bien ! 😊
