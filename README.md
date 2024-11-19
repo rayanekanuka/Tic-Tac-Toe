@@ -45,10 +45,6 @@ Ce jeu propose une interface console simple où deux joueurs peuvent jouer l'un 
 - `view/` : Contient les classes responsables de l'affichage du jeu (GameView, Menu).
 - `Main.java` : Point d'entrée du programme.
 
-## 📝 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
 ## ❤️ Remerciements
 
 Merci d'avoir joué à ce jeu de Tic-Tac-Toe en Java ! Amusez-vous bien ! 😊
