@@ -49,13 +49,13 @@ public class TicTacToe {
      *                 Humain vs Humain).
      */
     public void playerChoice(int gameMode) {
-        if (gameMode == 1) { // 1 humain vs 1 Bot
+        if (gameMode == 1) {
             playerX = new HumanPlayer("Humain", 'X');
             playerO = new ArtificialPlayer("Bot", 'O');
-        } else if (gameMode == 2) { // 2 Bots
+        } else if (gameMode == 2) {
             playerX = new ArtificialPlayer("Bot X", 'X');
             playerO = new ArtificialPlayer("Bot O", 'O');
-        } else { // 2 humains
+        } else {
             playerX = new HumanPlayer("Joueur X", 'X');
             playerO = new HumanPlayer("Joueur O", 'O');
         }
@@ -124,7 +124,7 @@ public class TicTacToe {
                 } else if (!board[row][col].isEmpty()) {
                     view.displayOccupiedCell();
                 } else {
-                    break; // Coordonnées valides
+                    break; 
                 }
             } catch (Exception e) {
                 view.displayInvalidInput();

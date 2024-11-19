@@ -2,6 +2,8 @@ package model.board;
 public class Cell {
     private String representation;
     
+    
+
     public Cell() {
         this.representation = " ";
     }
