@@ -1,11 +1,15 @@
 package view;
 
+import java.util.Scanner;
+
 import model.board.Cell;
 
 public class GameView {
+    private Scanner scanner = new Scanner(System.in);
+    private Cell[][] board;
 
     public GameView() {
-
+        this.scanner = new Scanner(System.in);
     }
 
     public void decoration() {
@@ -33,6 +37,36 @@ public class GameView {
                 System.out.println("    -------------------"); // Ligne de séparation
             }
         }
+    }
+
+    /**
+     * Demande au joueur de saisir un coup.
+     * 
+     * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
+     */
+    public int[] makeMove( String playerName, char playerSymbole, int size) {
+        int row = -1, col = -1;
+
+        while (true) {
+            try {
+                displayPlayerMove(playerName, playerSymbole);
+                row = scanner.nextInt() - 1; // Décrémente pour obtenir des indices à partir de 0
+                col = scanner.nextInt() - 1;
+
+                if (row < 0 || row >= size || col < 0 || col >= size) {
+                    displayInvalidCoordinates();
+                } else if (!board[row][col].isEmpty()) {
+                    displayOccupiedCell();
+                } else {
+                    break;
+                }
+            } catch (Exception e) {
+                displayInvalidInput();
+                scanner.nextLine();
+            }
+        }
+
+        return new int[] { row, col };
     }
 
     // Affiche le message de début de partie
