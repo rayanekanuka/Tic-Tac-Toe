@@ -9,7 +9,7 @@ import view.GameView;
 /**
  * Classe représentant le jeu de Tic-Tac-Toe.
  */
-public class TicTacToe {
+public class TicTacToe extends Game {
     private int size = 3;
     private Cell[][] board;
     private Player currentPlayer;
