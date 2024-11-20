@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 
+import model.board.Board;
 import model.board.Cell;
 
 public class GameView {
@@ -39,12 +40,13 @@ public class GameView {
         }
     }
 
+
     /**
      * Demande au joueur de saisir un coup.
      * 
      * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
      */
-    public int[] makeMove( String playerName, char playerSymbole, int size) {
+    public int[] makeMove(String playerName, char playerSymbole, int size) {
         int row = -1, col = -1;
 
         while (true) {
@@ -71,7 +73,8 @@ public class GameView {
 
     // Affiche le message de début de partie
     public void displayPlayerMove(String playerName, char playerSymbol) {
-        System.out.print(playerName + " (" + playerSymbol + "), entrez votre coup (ligne et colonne avec un espace) : ");
+        System.out
+                .print(playerName + " (" + playerSymbol + "), entrez votre coup (ligne et colonne avec un espace) : ");
     }
 
     // Messages d'erreur entrée utilisateur
