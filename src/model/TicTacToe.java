@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Scanner;
-
 import model.board.Cell;
 import model.player.ArtificialPlayer;
 import model.player.HumanPlayer;
@@ -104,36 +102,16 @@ public class TicTacToe {
         }
     }
 
+
     /**
      * Demande au joueur de saisir un coup.
      * 
      * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
      */
     public int[] getMoveFromPlayer() {
-        Scanner scanner = new Scanner(System.in);
-        int row = -1, col = -1;
-
-        while (true) {
-            try {
-                view.displayPlayerMove(currentPlayer.getName(), currentPlayer.getSymbole());
-                row = scanner.nextInt() - 1; // Décrémente pour obtenir des indices à partir de 0
-                col = scanner.nextInt() - 1;
-
-                if (row < 0 || row >= size || col < 0 || col >= size) {
-                    view.displayInvalidCoordinates();
-                } else if (!board[row][col].isEmpty()) {
-                    view.displayOccupiedCell();
-                } else {
-                    break; 
-                }
-            } catch (Exception e) {
-                view.displayInvalidInput();
-                scanner.nextLine();
-            }
-        }
-
-        return new int[] { row, col };
+        return view.makeMove(currentPlayer.getName(), currentPlayer.getSymbole(), size);
     }
+
 
     /**
      * Attribue une cellule à un joueur.
@@ -176,46 +154,52 @@ public class TicTacToe {
      * @return true si la partie est terminée, false sinon.
      */
     public boolean isOver() {
-        // Vérifie les colonnes
-        for (int i = 0; i < size; i++) {
-            if (board[i][0].getRepresentation().equals(board[i][1].getRepresentation())
-                    && board[i][1].getRepresentation().equals(board[i][2].getRepresentation())
-                    && !board[i][0].isEmpty()) {
-                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
-                return true;
-            }
+        if (checkWin()) {
+            view.displayBoard(board); // Affiche le plateau final
+            view.endGame("\n" + currentPlayer.getName() + " a gagné !");
+            return true;
         }
-        // Vérifie les lignes
+        if (isBoardFull()) {
+            view.displayBoard(board); // Affiche le plateau final
+            view.endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
+            return true;
+        }
+        return false; // La partie continue
+    }
+
+    /**
+     * Vérifie les conditions de victoire (lignes, colonnes, diagonales).
+     * 
+     * @return true si un joueur a gagné, false sinon.
+     */
+    private boolean checkWin() {
+        // Vérifie les lignes et les colonnes
         for (int i = 0; i < size; i++) {
-            if (board[0][i].getRepresentation().equals(board[1][i].getRepresentation())
-                    && board[1][i].getRepresentation().equals(board[2][i].getRepresentation())
-                    && !board[0][i].isEmpty()) {
-                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
+            if (checkLineOrColumn(board[i][0], board[i][1], board[i][2]) ||
+                    checkLineOrColumn(board[0][i], board[1][i], board[2][i])) {
                 return true;
             }
         }
         // Vérifie les diagonales
-        for (int i = 0; i < size; i++) {
-            if (board[0][0].getRepresentation().equals(board[1][1].getRepresentation())
-                    && board[1][1].getRepresentation().equals(board[2][2].getRepresentation())
-                    && !board[0][0].isEmpty()) {
-                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
-                return true;
-            }
-            if (board[0][2].getRepresentation().equals(board[1][1].getRepresentation())
-                    && board[1][1].getRepresentation().equals(board[2][0].getRepresentation())
-                    && !board[0][2].isEmpty()) {
-                view.endGame("\n" + currentPlayer.getName() + " a gagné !");
-                return true;
-            }
-        }
-        // Vérifie si le plateau est plein
-        if (isBoardFull()) {
-            view.endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
+        if (checkLineOrColumn(board[0][0], board[1][1], board[2][2]) ||
+                checkLineOrColumn(board[0][2], board[1][1], board[2][0])) {
             return true;
         }
+        return false;
+    }
 
-        return false; // La partie continue
+    /**
+     * Vérifie si trois cellules contiennent le même symbole non vide pour les conditions de victoire.
+     * 
+     * @param c1 La première cellule.
+     * @param c2 La deuxième cellule.
+     * @param c3 La troisième cellule.
+     * @return true si les trois cellules contiennent le même symbole, false sinon.
+     */
+    private boolean checkLineOrColumn(Cell c1, Cell c2, Cell c3) {
+        return c1.getRepresentation().equals(c2.getRepresentation()) &&
+                c2.getRepresentation().equals(c3.getRepresentation()) &&
+                !c1.isEmpty();
     }
 
 }
