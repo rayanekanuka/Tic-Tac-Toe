@@ -1,12 +1,15 @@
 package view;
 
 import java.util.Scanner;
+
+import model.Game;
 import model.TicTacToe;
+import model.Gomoku;
 
 public class Menu {
     private Scanner scanner;
     private GameView gameView;
-    private TicTacToe game;
+    private Game game;
 
     public Menu() {
         this.scanner = new Scanner(System.in);
@@ -17,11 +20,16 @@ public class Menu {
         decoMenu();
         System.out.println("Bienvenue !");
         System.out.println("1. Commencer une nouvelle partie");
-        System.out.println("2. Quitter");
+        System.out.println("2. Jouer à Gomoku");
+        System.out.println("3. Quitter");
 
         int choix = scanner.nextInt();
         if (choix == 1) {
-            startGame();
+            game = new TicTacToe(gameView);
+            game.play(startGame());
+        } else if (choix == 2) {
+            game = new Gomoku(gameView);
+            game.play(startGame());
         } else {
             System.out.println("\nMerci d'avoir joué (^_^)");
         }

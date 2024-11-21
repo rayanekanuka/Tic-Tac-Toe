@@ -4,7 +4,7 @@ import model.player.Player;
 import model.State;
 
 public class Board {
-    private int size = 3;
+    private int size;
     private Cell[][] board;
 
     public Board(int size) {

@@ -14,12 +14,35 @@ public abstract class Game {
     private Player playerO;
     private GameView view;
 
+    /**
+     * Constructeur générique pour les jeux
+     * 
+     * @param view La vue du jeu.
+     * @param size La taille du plateau de jeu.
+     */
+    public Game(GameView view, int size) {
+        this.size = size;
+        this.view = view;
+        board = new Board(size);
+    }
+
+    /**
+     * Constructeur pour le jeu TicTacToe
+     * 
+     * @param view La vue du jeu.
+     */
     public Game(GameView view) {
         this.size = 3;
         this.view = view;
         board = new Board(size);
     }
 
+    /**
+     * Constructeur pour le jeu Gomoku
+     * 
+     * @param view La vue du jeu.
+     * @param size La taille du plateau de jeu.
+     */
     public Game() {
         this(new GameView());
     }
@@ -27,7 +50,7 @@ public abstract class Game {
     /**
      * Choisit les joueurs en fonction du mode de jeu.
      * 
-     * @param gameMode Le mode de jeu choisi (1: Humain vs Bot, 2: Bot vs Bot, 
+     * @param gameMode Le mode de jeu choisi (1: Humain vs Bot, 2: Bot vs Bot,
      *                 3 : Humain vs Humain).
      */
     public void playerChoice(int gameMode) {
@@ -64,7 +87,8 @@ public abstract class Game {
             if (currentPlayer instanceof HumanPlayer) {
                 move = getMoveFromPlayer();
             } else {
-                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), size); // Laisse l'IA choisir un coup
+                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), size); // Laisse l'IA choisir un
+                                                                                           // coup
             }
 
             board.setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
@@ -124,5 +148,10 @@ public abstract class Game {
         }
         return false; // La partie continue
     }
+
+    /**
+     * Méthode abstraite pour vérifier les conditions de victoire spécifiques.
+     */
+    public abstract boolean checkWin();
 
 }
