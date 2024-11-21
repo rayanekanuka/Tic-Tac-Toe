@@ -72,7 +72,7 @@ public class GameView {
     }
 
     // Affiche le message de début de partie
-    public void displayPlayerMove(String playerName, String playerSymbol) {
+    public void displayPlayerMove(String playerName, String playerSymbole) {
         System.out.print(" (" + playerName + "), entrez votre coup (ligne et colonne avec un espace) : ");
     }
 
