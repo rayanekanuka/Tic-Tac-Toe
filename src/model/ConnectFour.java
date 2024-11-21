@@ -1,6 +1,5 @@
 package model;
     
-public class ConnectFour extends Game {
-
+// public class ConnectFour extends Game {
     
-}
+// }

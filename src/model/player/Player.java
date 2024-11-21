@@ -1,32 +1,25 @@
 package model.player;
+import model.State;
 
 public abstract class Player {
-    private String name;
-    private char symbole;
-    
-    public Player(String name, char symbole) {
-        this.name = name;
-        this.symbole = symbole;
+
+    private State state;
+
+    public Player(State state) {
+        this.state = state;
     }
 
-    /*-- GETTERS AND SETTERS --*/
-    
-    public String getName() {
-        return name;
+    public String getRepresentation(){
+        return state.getValue();
     }
 
-    public char getSymbole() {
-        return symbole;
+    public State getState(){
+        return state;
     }
 
-    public String setName(String name) {
-        this.name = name;
-        return name;
-    }
-    
-    public char setSymbole(char symbole) {
-        this.symbole = symbole;
-        return symbole;
+    @Override
+    public String toString() {
+        return getRepresentation();
     }
     
 }

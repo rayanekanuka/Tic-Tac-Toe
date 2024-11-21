@@ -1,27 +1,23 @@
 package model.board;
 
 import model.player.Player;
-import view.GameView;
+import model.State;
 
 public class Board {
     private int size = 3;
     private Cell[][] board;
-    private GameView view;
-    private int sizeX;
-    private int sizeY;
 
-    public Board() {
-
-    }
-
-    public Board(int sizeX, int sizeY) {
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
+    public Board(int size) {
+        this.size = size;
         this.board = initBoard();
-
     }
 
-    private Cell[][] initBoard() {
+    /**
+     * Initialise le plateau de jeu avec des cellules vides.
+     * 
+     * @return Le plateau de cellules initialisé.
+     */
+    public Cell[][] initBoard() {
         board = new Cell[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -31,8 +27,16 @@ public class Board {
         return board;
     }
 
+    /**
+     * Retourne le plateau de jeu.
+     * @return Le plateau des cellules
+     */
     public Cell[][] getBoard() {
         return board;
+    }
+
+    public boolean isCellEmpty(int row, int col) {
+        return board[row][col].getState() != State.EMPTY;
     }
 
     /**
@@ -44,7 +48,7 @@ public class Board {
      */
     public void setOwner(int row, int col, Player player) {
         // Attribue le symbole du joueur à la cellule
-        board[row][col].setRepresentation(String.valueOf(player.getSymbole()));
+        board[row][col].setState(player.getState());
     }
 
     /**
@@ -55,7 +59,7 @@ public class Board {
     public boolean isBoardFull() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if (board[i][j].isEmpty()) {
+                if (board[i][j].getState() == State.EMPTY) {
                     return false;
                 }
             }
@@ -68,7 +72,7 @@ public class Board {
      * 
      * @return true si un joueur a gagné, false sinon.
      */
-    private boolean checkWin() {
+    public boolean checkWin() {
         // Vérifie les lignes et les colonnes
         for (int i = 0; i < size; i++) {
             if (checkLineOrColumn(board[i][0], board[i][1], board[i][2]) ||
@@ -94,9 +98,9 @@ public class Board {
      * @return true si les trois cellules contiennent le même symbole, false sinon.
      */
     private boolean checkLineOrColumn(Cell c1, Cell c2, Cell c3) {
-        return c1.getRepresentation().equals(c2.getRepresentation()) &&
-                c2.getRepresentation().equals(c3.getRepresentation()) &&
-                !c1.isEmpty();
+        return c1.getRepresentation() == (c2.getRepresentation()) &&
+                c2.getRepresentation() == (c3.getRepresentation()) &&
+                c1.getState() != State.EMPTY;
     }
 
 }

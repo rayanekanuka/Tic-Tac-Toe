@@ -1,14 +1,13 @@
 package model;
 
 import model.board.Board;
-import model.board.Cell;
 import model.player.ArtificialPlayer;
 import model.player.HumanPlayer;
 import model.player.Player;
 import view.GameView;
 
 public abstract class Game {
-    private int size = 3;
+    private int size;
     private Board board;
     private Player currentPlayer;
     private Player playerX;
@@ -18,7 +17,7 @@ public abstract class Game {
     public Game(GameView view) {
         this.size = 3;
         this.view = view;
-        board = new Board(size, size);
+        board = new Board(size);
     }
 
     /**
@@ -29,14 +28,14 @@ public abstract class Game {
      */
     public void playerChoice(int gameMode) {
         if (gameMode == 1) {
-            playerX = new HumanPlayer("Humain", 'X');
-            playerO = new ArtificialPlayer("Bot", 'O');
+            playerX = new HumanPlayer(State.X);
+            playerO = new ArtificialPlayer(State.O);
         } else if (gameMode == 2) {
-            playerX = new ArtificialPlayer("Bot X", 'X');
-            playerO = new ArtificialPlayer("Bot O", 'O');
+            playerX = new ArtificialPlayer(State.X);
+            playerO = new ArtificialPlayer(State.O);
         } else {
-            playerX = new HumanPlayer("Joueur X", 'X');
-            playerO = new HumanPlayer("Joueur O", 'O');
+            playerX = new HumanPlayer(State.X);
+            playerO = new HumanPlayer(State.O);
         }
 
         currentPlayer = playerX;
@@ -52,8 +51,8 @@ public abstract class Game {
 
         while (true) {
             view.decoration();
-            view.displayMessage("Tour du " + currentPlayer.getName() + " (" + currentPlayer.getSymbole() + ")");
-            view.displayBoard(board);
+            view.displayMessage("Tour du Joueur" + currentPlayer.getRepresentation());
+            view.displayBoard(board.getBoard());
 
             int[] move;
 
@@ -61,10 +60,10 @@ public abstract class Game {
             if (currentPlayer instanceof HumanPlayer) {
                 move = getMoveFromPlayer();
             } else {
-                move = ((ArtificialPlayer) currentPlayer).getMove(board, size); // Laisse l'IA choisir un coup
+                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), size); // Laisse l'IA choisir un coup
             }
 
-            setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
+            board.setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
             wait(1000); // Pause de 1 seconde
 
             // Vérifie si le joueur a gagné ou si la partie est terminée
@@ -89,7 +88,7 @@ public abstract class Game {
      * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
      */
     public int[] getMoveFromPlayer() {
-        return view.makeMove(currentPlayer.getName(), currentPlayer.getSymbole(), size);
+        return view.makeMove(currentPlayer.getRepresentation(), currentPlayer.getRepresentation(), size);
     }
 
     /**
@@ -109,13 +108,13 @@ public abstract class Game {
      * @return true si la partie est terminée, false sinon.
      */
     public boolean isOver() {
-        if (checkWin()) {
-            view.displayBoard(board); // Affiche le plateau final
-            view.endGame("\n" + currentPlayer.getName() + " a gagné !");
+        if (board.checkWin()) {
+            view.displayBoard(board.getBoard()); // Affiche le plateau final
+            view.endGame("\n Le Joueur" + currentPlayer.getRepresentation() + "a gagné !");
             return true;
         }
-        if (isBoardFull()) {
-            view.displayBoard(board); // Affiche le plateau final
+        if (board.isBoardFull()) {
+            view.displayBoard(board.getBoard()); // Affiche le plateau final
             view.endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
             return true;
         }

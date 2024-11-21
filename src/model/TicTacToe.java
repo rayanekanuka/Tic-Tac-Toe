@@ -10,9 +10,8 @@ public class TicTacToe extends Game {
     /**
      * Constructeur de la classe TicTacToe.
      * 
-     * @param view L'instance de GameView utilisée pour afficher le jeu.
+     * @param view La vue du jeu.
      */
-
     public TicTacToe(GameView view) {
         super(view);
     }

@@ -2,15 +2,16 @@ package view;
 
 import java.util.Scanner;
 
-import model.board.Board;
 import model.board.Cell;
+import model.board.Board;
 
 public class GameView {
     private Scanner scanner = new Scanner(System.in);
-    private Cell[][] board;
+    private Board board;
 
     public GameView() {
         this.scanner = new Scanner(System.in);
+        this.board = new Board(3);
     }
 
     public void decoration() {
@@ -22,7 +23,7 @@ public class GameView {
     }
 
     public void displayBoard(Cell[][] board) {
-        System.out.print("   "); // Pour l'alignement de l'affichage des indices de colonnes
+        System.out.print("    "); // Pour l'alignement de l'affichage des indices de colonnes
         for (int i = 1; i <= board.length; i++) {
             System.out.print("   " + i + "   "); // Affiche les indices de colonnes
         }
@@ -31,11 +32,11 @@ public class GameView {
         for (int i = 0; i < board.length; i++) {
             System.out.print("  " + (i + 1) + " "); // Affiche les indices de lignes
             for (int j = 0; j < board.length; j++) {
-                System.out.print("|  " + board[i][j].getRepresentation() + "  ");
+                System.out.print("| " + board[i][j].getRepresentation() + "  ");
             }
             System.out.println("|");
             if (i < board.length - 1) {
-                System.out.println("    -------------------"); // Ligne de séparation
+                System.out.println("    ----------------------"); // Ligne de séparation
             }
         }
     }
@@ -46,7 +47,7 @@ public class GameView {
      * 
      * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
      */
-    public int[] makeMove(String playerName, char playerSymbole, int size) {
+    public int[] makeMove(String playerName, String playerSymbole, int size) {
         int row = -1, col = -1;
 
         while (true) {
@@ -57,7 +58,7 @@ public class GameView {
 
                 if (row < 0 || row >= size || col < 0 || col >= size) {
                     displayInvalidCoordinates();
-                } else if (!board[row][col].isEmpty()) {
+                } else if (board.isCellEmpty(row, col)) {
                     displayOccupiedCell();
                 } else {
                     break;
@@ -67,14 +68,12 @@ public class GameView {
                 scanner.nextLine();
             }
         }
-
         return new int[] { row, col };
     }
 
     // Affiche le message de début de partie
-    public void displayPlayerMove(String playerName, char playerSymbol) {
-        System.out
-                .print(playerName + " (" + playerSymbol + "), entrez votre coup (ligne et colonne avec un espace) : ");
+    public void displayPlayerMove(String playerName, String playerSymbol) {
+        System.out.print(" (" + playerName + "), entrez votre coup (ligne et colonne avec un espace) : ");
     }
 
     // Messages d'erreur entrée utilisateur

@@ -1,5 +1,5 @@
 package model;
 
-public class Gomoku extends Game {
+// public class Gomoku extends Game {
     
-}
+// }

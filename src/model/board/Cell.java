@@ -1,22 +1,29 @@
 package model.board;
+import model.State;
 
 public class Cell {
-    private String representation;
-    
-    public Cell() {
-        this.representation = " ";
+
+    private State state;
+
+    Cell(){
+        this.state = State.EMPTY;
     }
 
-    public String getRepresentation() {
-        return representation;
+    public void setState(State state) {
+        this.state = state;
     }
 
-    public void setRepresentation(String representation) {
-        this.representation = representation;
+    public String getRepresentation(){
+        return this.state.getValue();
     }
 
-    public boolean isEmpty() {
-        return representation.equals(" ");
+    public State getState(){
+        return this.state;
+    }
+
+    public String toString()
+    {
+        return getRepresentation();
     }
 
 }

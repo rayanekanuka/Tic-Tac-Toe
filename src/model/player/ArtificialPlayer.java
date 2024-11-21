@@ -2,11 +2,12 @@ package model.player;
 import java.util.Random;
 
 import model.board.Cell;
+import model.State;
 
 public class ArtificialPlayer extends Player {
 
-    public ArtificialPlayer(String name, char symbole) {
-        super(name, symbole);
+    public ArtificialPlayer(State state) {
+        super(state);
     }
 
     // Cette méthode choisit un coup aléatoire parmi les cases vides
@@ -20,7 +21,7 @@ public class ArtificialPlayer extends Player {
             col = rand.nextInt(size); // Colonne aléatoire
 
             // Vérifie si la case est vide
-            if (board[row][col].isEmpty()) {
+            if (board[row][col].getRepresentation() == State.EMPTY.getValue()) {
                 break;
             }
         }
