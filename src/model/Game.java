@@ -20,6 +20,10 @@ public abstract class Game {
         board = new Board(size);
     }
 
+    public Game() {
+        this(new GameView());
+    }
+
     /**
      * Choisit les joueurs en fonction du mode de jeu.
      * 
