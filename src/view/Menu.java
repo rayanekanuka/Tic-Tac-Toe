@@ -5,6 +5,7 @@ import java.util.Scanner;
 import model.games.Game;
 import model.games.Gomoku;
 import model.games.TicTacToe;
+import model.games.ConnectFour;
 
 public class Menu {
     private Scanner scanner;
@@ -18,26 +19,39 @@ public class Menu {
 
     public void displayMenu() {
         decoMenu();
-        System.out.println("Bienvenue !");
+        System.out.println("On joue à quoi ?");
         System.out.println("1. Jouer au Tic Tac Toe");
         System.out.println("2. Jouer à Gomoku");
-        System.out.println("3. Quitter");
+        System.out.println("3. Jouer au Puissance 4");
+        System.out.println("4. Quitter");
 
-        int choix = scanner.nextInt();
-        if (choix == 1) {
-            game = new TicTacToe(gameView);
-            game.play(startGame());
-        } else if (choix == 2) {
-            game = new Gomoku(gameView);
-            game.play(startGame());
-        } else {
-            System.out.println("\nMerci d'avoir joué (^_^)");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                game = new TicTacToe(gameView);
+                game.play(startGame());
+                break;
+            case 2:
+                game = new Gomoku(gameView);
+                game.play(startGame());
+                break;
+            case 3:
+                game = new ConnectFour(gameView);
+                game.play(startGame());
+                break;
+            case 4:
+                System.out.println("\nA bientôt (^_^)");
+                break;
+            default:
+                System.out.println("Choix invalide");
+                displayMenu();
         }
     }
 
     public int startGame() {
         decoMenu();
-        System.out.println("Choisissez un mode de jeu :");
+        System.out.println("CHOISISSEZ UN MODE DE JEU :");
         System.out.println("1. Humain vs Bot");
         System.out.println("2. Bot vs Bot");
         System.out.println("3. Humain vs Humain");
@@ -45,22 +59,20 @@ public class Menu {
 
         int gameMode = scanner.nextInt();
         scanner.nextLine();
-
-        game = new TicTacToe(gameView);
-        game.play(gameMode);
         return gameMode;
     }
 
+
     public void decoMenu() {
         System.out.println("\r\n" + //
-                        "██████╗ ██╗      █████╗ ██╗   ██╗     ██████╗  █████╗ ███╗   ███╗███████╗███████╗\r\n" + //
-                        "██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔════╝\r\n" + //
-                        "██████╔╝██║     ███████║ ╚████╔╝     ██║  ███╗███████║██╔████╔██║█████╗  ███████╗\r\n" + //
-                        "██╔═══╝ ██║     ██╔══██║  ╚██╔╝      ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ╚════██║\r\n" + //
-                        "██║     ███████╗██║  ██║   ██║       ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗███████║\r\n" + //
-                        "╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝\r\n" + //
-                        "                                                                                 \r\n" + //
-                        "");
+                "██████╗ ██╗      █████╗ ██╗   ██╗     ██████╗  █████╗ ███╗   ███╗███████╗███████╗\r\n" + //
+                "██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔════╝\r\n" + //
+                "██████╔╝██║     ███████║ ╚████╔╝     ██║  ███╗███████║██╔████╔██║█████╗  ███████╗\r\n" + //
+                "██╔═══╝ ██║     ██╔══██║  ╚██╔╝      ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ╚════██║\r\n" + //
+                "██║     ███████╗██║  ██║   ██║       ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗███████║\r\n" + //
+                "╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝\r\n" + //
+                "                                                                                 \r\n" + //
+                "");
     }
 
 }

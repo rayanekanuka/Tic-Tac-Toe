@@ -8,44 +8,30 @@ import model.player.Player;
 import view.GameView;
 
 public abstract class Game {
-    private int size;
-    private Board board;
-    private Player currentPlayer;
-    private Player playerX;
-    private Player playerO;
-    private GameView view;
+    protected int sizeX;
+    protected int sizeY;
+    protected Board board;
+    protected Player currentPlayer;
+    protected Player playerX;
+    protected Player playerO;
+    protected GameView view;
+    protected String decoration;
+    protected int WinWin;
 
     /**
-     * Constructeur générique pour les jeux
+     * Constructeur de la classe Game.
      * 
      * @param view La vue du jeu.
      * @param size La taille du plateau de jeu.
      */
-    public Game(GameView view, int size) {
-        this.size = size;
+    public Game(GameView view, int sizeX, int sizeY, int WinWin) {
         this.view = view;
-        board = new Board(size);
-    }
-
-    /**
-     * Constructeur pour le jeu TicTacToe
-     * 
-     * @param view La vue du jeu.
-     */
-    public Game(GameView view) {
-        this.size = 3;
-        this.view = view;
-        board = new Board(size);
-    }
-
-    /**
-     * Constructeur pour le jeu Gomoku
-     * 
-     * @param view La vue du jeu.
-     * @param size La taille du plateau de jeu.
-     */
-    public Game() {
-        this(new GameView());
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.WinWin = WinWin;
+        this.board = new Board(sizeX, sizeY);
+        this.playerO = new HumanPlayer(State.O);
+        this.playerX = new HumanPlayer(State.X);
     }
 
     /**
@@ -78,7 +64,7 @@ public abstract class Game {
         playerChoice(gameMode); // Choix des joueurs
 
         while (true) {
-            view.decoration();
+            view.decoration(this.decoration);
             view.displayMessage("Tour du Joueur" + currentPlayer.getRepresentation());
             view.displayBoard(board.getBoard());
 
@@ -89,11 +75,11 @@ public abstract class Game {
                 move = getMoveFromPlayer();
             } else {
                 // Le Bot choisit un coup
-                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), size);
+                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), sizeX, sizeY);
             }
             // Attribue la cellule au joueur
             board.setOwner(move[0], move[1], currentPlayer);
-            wait(1000); // Pause de 1 seconde
+            // wait(1000); // Pause de 1 seconde
 
             // Vérifie si le joueur a gagné ou si la partie est terminée
             if (isOver()) {
@@ -117,7 +103,7 @@ public abstract class Game {
      * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
      */
     public int[] getMoveFromPlayer() {
-        return view.makeMove(currentPlayer.getRepresentation(), currentPlayer.getRepresentation(), size);
+        return view.makeMove(currentPlayer.getRepresentation(), currentPlayer.getRepresentation(), sizeX, sizeY);
     }
 
     /**
@@ -141,13 +127,12 @@ public abstract class Game {
             view.displayBoard(board.getBoard()); // Affiche le plateau final
             view.endGame("\n Le Joueur" + currentPlayer.getRepresentation() + "a gagné !");
             return true;
-        }
-        if (board.isBoardFull()) {
+        } else if (board.isBoardFull()) {
             view.displayBoard(board.getBoard()); // Affiche le plateau final
             view.endGame("\nLe plateau est rempli. Aucun gagnant. Partie nulle !");
             return true;
+        } else {
+            return false; // La partie continue
         }
-        return false; // La partie continue
     }
-
 }

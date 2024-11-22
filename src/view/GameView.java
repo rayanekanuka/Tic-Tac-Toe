@@ -7,47 +7,60 @@ import model.board.Board;
 
 public class GameView {
     private Scanner scanner = new Scanner(System.in);
+    protected int sizeX;
+    protected int sizeY;
     private Board board;
 
     public GameView() {
         this.scanner = new Scanner(System.in);
-        this.board = new Board(3);
+        this.board = new Board(sizeX, sizeY);
     }
 
-    public void decoration() {
-        System.out.println("\r\n" + //
-                "╔╦╗┬┌─┐  ╔╦╗┌─┐┌─┐  ╔╦╗┌─┐┌─┐\r\n" + //
-                " ║ ││     ║ ├─┤│     ║ │ │├┤ \r\n" + //
-                " ╩ ┴└─┘   ╩ ┴ ┴└─┘   ╩ └─┘└─┘\r\n" + //
-                "");
+    public void decoration(String decoration) {
+        System.out.println(decoration);
     }
 
     public void displayBoard(Cell[][] board) {
-        System.out.print("    "); // Pour l'alignement de l'affichage des indices de colonnes
-        for (int i = 1; i <= board.length; i++) {
-            System.out.print("   " + i + "   "); // Affiche les indices de colonnes
+        int rows = board.length;  
+        int columns = board[0].length;
+    
+        // Génère et affiche les en-têtes de colonnes dynamiquement
+        System.out.print("     ");  // Espace de début pour l'alignement
+        for (int i = 0; i < columns; i++) {
+            System.out.printf("%-5d", i + 1);  // Ajuste l'espacement pour l'alignement des colonnes
         }
         System.out.println();
-
-        for (int i = 0; i < board.length; i++) {
-            System.out.print("  " + (i + 1) + " "); // Affiche les indices de lignes
-            for (int j = 0; j < board.length; j++) {
-                System.out.print("| " + board[i][j].getRepresentation() + "  ");
+    
+        // Bordure supérieure du plateau
+        System.out.print("  ");
+        for (int i = 0; i < columns; i++) {
+            System.out.print("-----");  // Ajuste les tirets pour la bordure
+        }
+        System.out.println();
+    
+        // Affiche les lignes avec les numéros de lignes
+        for (int i = 0; i < rows; i++) {
+            System.out.print((i + 1) + " |");  // Affiche le numéro de la ligne
+            for (Cell cell : board[i]) {
+                System.out.printf("%-4s|", cell.getRepresentation());  // Affiche le contenu de la cellule avec un espacement approprié
             }
-            System.out.println("|");
-            if (i < board.length - 1) {
-                System.out.println("    ----------------------"); // Ligne de séparation
+            System.out.println(); 
+    
+            // Affiche le séparateur de ligne
+            System.out.print("  ");
+            for (int j = 0; j < columns; j++) {
+                System.out.print("-----");  // Ajuste les tirets pour séparer les lignes
             }
+            System.out.println();
         }
     }
-
 
     /**
      * Demande au joueur de saisir un coup.
      * 
      * @return Un tableau contenant les coordonnées du coup (ligne et colonne).
      */
-    public int[] makeMove(String playerName, String playerSymbole, int size) {
+    public int[] makeMove(String playerName, String playerSymbole, int sizeX, int sizeY) {
         int row = -1, col = -1;
 
         while (true) {
@@ -56,7 +69,7 @@ public class GameView {
                 row = scanner.nextInt() - 1; // Décrémente pour obtenir des indices à partir de 0
                 col = scanner.nextInt() - 1;
 
-                if (row < 0 || row >= size || col < 0 || col >= size) {
+                if (row < 0 || row >= sizeX || col < 0 || col >= sizeY) {
                     displayInvalidCoordinates();
                 } else if (board.isCellEmpty(row, col)) {
                     displayOccupiedCell();

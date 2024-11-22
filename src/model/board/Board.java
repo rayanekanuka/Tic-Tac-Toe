@@ -3,11 +3,13 @@ package model.board;
 import model.player.Player;
 
 public class Board {
-    private int size;
+    private int sizeX;
+    private int sizeY;
     private Cell[][] board;
 
-    public Board(int size) {
-        this.size = size;
+    public Board(int sizeX, int sizeY) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         this.board = initBoard();
     }
 
@@ -17,9 +19,9 @@ public class Board {
      * @return Le plateau de cellules initialisé.
      */
     public Cell[][] initBoard() {
-        board = new Cell[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        board = new Cell[sizeX][sizeY];
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
                 board[i][j] = new Cell();
             }
         }
@@ -28,6 +30,7 @@ public class Board {
 
     /**
      * Retourne le plateau de jeu.
+     * 
      * @return Le plateau des cellules
      */
     public Cell[][] getBoard() {
@@ -35,6 +38,9 @@ public class Board {
     }
 
     public boolean isCellEmpty(int row, int col) {
+        if (row < 0 || row >= sizeX || col < 0 || col >= sizeY) {
+            throw new IndexOutOfBoundsException("Coordonnées invalides");
+        }
         return board[row][col].getState() != State.EMPTY;
     }
 
@@ -56,8 +62,8 @@ public class Board {
      * @return true si le plateau est plein, false sinon.
      */
     public boolean isBoardFull() {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
+        for (int i = 0; i < sizeX; i++) {
+            for (int j = 0; j < sizeY; j++) {
                 if (board[i][j].getState() == State.EMPTY) {
                     return false;
                 }
@@ -72,34 +78,82 @@ public class Board {
      * @return true si un joueur a gagné, false sinon.
      */
     public boolean checkWin() {
-        // Vérifie les lignes et les colonnes
-        for (int i = 0; i < size; i++) {
-            if (checkLineOrColumn(board[i][0], board[i][1], board[i][2]) ||
-                    checkLineOrColumn(board[0][i], board[1][i], board[2][i])) {
+        return checkLines() || checkColumns() || checkDiagonals();
+    }
+
+    /**
+     * Vérifie les lignes pour voir si un joueur a gagné.
+     * 
+     * @return true si une ligne satisfait la condition de victoire.
+     */
+    private boolean checkLines() {
+        for (int i = 0; i < sizeX; i++) {
+            if (checkLineCells(board[i])) {
                 return true;
             }
-        }
-        // Vérifie les diagonales
-        if (checkLineOrColumn(board[0][0], board[1][1], board[2][2]) ||
-                checkLineOrColumn(board[0][2], board[1][1], board[2][0])) {
-            return true;
         }
         return false;
     }
 
     /**
-     * Vérifie si trois cellules contiennent le même symbole non vide pour les
-     * conditions de victoire.
+     * Vérifie les colonnes pour voir si un joueur a gagné.
      * 
-     * @param c1 La première cellule.
-     * @param c2 La deuxième cellule.
-     * @param c3 La troisième cellule.
-     * @return true si les trois cellules contiennent le même symbole, false sinon.
+     * @return true si une colonne satisfait la condition de victoire.
      */
-    private boolean checkLineOrColumn(Cell c1, Cell c2, Cell c3) {
-        return c1.getRepresentation() == (c2.getRepresentation()) &&
-                c2.getRepresentation() == (c3.getRepresentation()) &&
-                c1.getState() != State.EMPTY;
+    private boolean checkColumns() {
+        for (int j = 0; j < sizeY; j++) {
+            Cell[] column = new Cell[sizeX];
+            for (int i = 0; i < sizeX; i++) {
+                column[i] = board[i][j];
+            }
+            if (checkLineCells(column)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Vérifie les diagonales pour voir si un joueur a gagné.
+     * 
+     * @return true si une diagonale satisfait la condition de victoire.
+     */
+    private boolean checkDiagonals() {
+        // Diagonale principale
+        Cell[] mainDiagonal = new Cell[sizeX];
+        for (int i = 0; i < sizeX; i++) {
+            mainDiagonal[i] = board[i][i];
+        }
+        if (checkLineCells(mainDiagonal)) {
+            return true;
+        }
+
+        // Diagonale secondaire
+        Cell[] secondaryDiagonal = new Cell[sizeX];
+        for (int i = 0; i < sizeX; i++) {
+            secondaryDiagonal[i] = board[i][sizeY - i - 1];
+        }
+        return checkLineCells(secondaryDiagonal);
+    }
+
+    /**
+     * Vérifie si toutes les cellules d'une ligne ou colonne contiennent le même
+     * symbole.
+     * 
+     * @param cells Les cellules à vérifier.
+     * @return true si toutes les cellules contiennent le même symbole (et ne sont
+     *         pas vides).
+     */
+    private boolean checkLineCells(Cell[] cells) {
+        if (cells[0].getState() == State.EMPTY) {
+            return false;
+        }
+        for (int i = 1; i < cells.length; i++) {
+            if (cells[i].getState() != cells[0].getState()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
