@@ -1,7 +1,6 @@
 package model.board;
 
 import model.player.Player;
-import model.State;
 
 public class Board {
     private int size;

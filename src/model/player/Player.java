@@ -1,5 +1,5 @@
 package model.player;
-import model.State;
+import model.board.State;
 
 public abstract class Player {
 

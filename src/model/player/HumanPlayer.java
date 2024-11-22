@@ -1,6 +1,6 @@
 package model.player;
 
-import model.State;
+import model.board.State;
 
 public class HumanPlayer extends Player {
 

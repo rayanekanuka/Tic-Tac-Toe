@@ -1,6 +1,7 @@
-package model;
+package model.games;
 
 import model.board.Board;
+import model.board.State;
 import model.player.ArtificialPlayer;
 import model.player.HumanPlayer;
 import model.player.Player;
@@ -87,11 +88,11 @@ public abstract class Game {
             if (currentPlayer instanceof HumanPlayer) {
                 move = getMoveFromPlayer();
             } else {
-                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), size); // Laisse l'IA choisir un
-                                                                                           // coup
+                // Le Bot choisit un coup
+                move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), size);
             }
-
-            board.setOwner(move[0], move[1], currentPlayer); // Attribue la cellule au joueur
+            // Attribue la cellule au joueur
+            board.setOwner(move[0], move[1], currentPlayer);
             wait(1000); // Pause de 1 seconde
 
             // Vérifie si le joueur a gagné ou si la partie est terminée
@@ -148,10 +149,5 @@ public abstract class Game {
         }
         return false; // La partie continue
     }
-
-    /**
-     * Méthode abstraite pour vérifier les conditions de victoire spécifiques.
-     */
-    public abstract boolean checkWin();
 
 }

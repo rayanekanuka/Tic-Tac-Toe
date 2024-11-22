@@ -1,5 +1,4 @@
 package model.board;
-import model.State;
 
 public class Cell {
 

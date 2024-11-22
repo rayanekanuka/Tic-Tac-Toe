@@ -2,9 +2,9 @@ package view;
 
 import java.util.Scanner;
 
-import model.Game;
-import model.TicTacToe;
-import model.Gomoku;
+import model.games.Game;
+import model.games.Gomoku;
+import model.games.TicTacToe;
 
 public class Menu {
     private Scanner scanner;
@@ -19,7 +19,7 @@ public class Menu {
     public void displayMenu() {
         decoMenu();
         System.out.println("Bienvenue !");
-        System.out.println("1. Commencer une nouvelle partie");
+        System.out.println("1. Jouer au Tic Tac Toe");
         System.out.println("2. Jouer à Gomoku");
         System.out.println("3. Quitter");
 
@@ -52,15 +52,15 @@ public class Menu {
     }
 
     public void decoMenu() {
-        System.out.println("####### ###  #####     #######    #     #####     ####### ####### #######\r\n" + //
-                "   #     #  #     #       #      # #   #     #       #    #     # #\r\n" + //
-                "   #     #  #             #     #   #  #             #    #     # #\r\n" + //
-                "   #     #  #             #    #     # #             #    #     # #####\r\n" + //
-                "   #     #  #             #    ####### #             #    #     # #\r\n" + //
-                "   #     #  #     #       #    #     # #     #       #    #     # #\r\n" + //
-                "   #    ###  #####        #    #     #  #####        #    ####### #######\r\n" + //
-                "\r\n" + //
-                "");
+        System.out.println("\r\n" + //
+                        "██████╗ ██╗      █████╗ ██╗   ██╗     ██████╗  █████╗ ███╗   ███╗███████╗███████╗\r\n" + //
+                        "██╔══██╗██║     ██╔══██╗╚██╗ ██╔╝    ██╔════╝ ██╔══██╗████╗ ████║██╔════╝██╔════╝\r\n" + //
+                        "██████╔╝██║     ███████║ ╚████╔╝     ██║  ███╗███████║██╔████╔██║█████╗  ███████╗\r\n" + //
+                        "██╔═══╝ ██║     ██╔══██║  ╚██╔╝      ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  ╚════██║\r\n" + //
+                        "██║     ███████╗██║  ██║   ██║       ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗███████║\r\n" + //
+                        "╚═╝     ╚══════╝╚═╝  ╚═╝   ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝\r\n" + //
+                        "                                                                                 \r\n" + //
+                        "");
     }
 
 }

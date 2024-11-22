@@ -2,7 +2,7 @@ package model.player;
 import java.util.Random;
 
 import model.board.Cell;
-import model.State;
+import model.board.State;
 
 public class ArtificialPlayer extends Player {
 
