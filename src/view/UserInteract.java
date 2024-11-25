@@ -7,12 +7,12 @@ import model.games.Gomoku;
 import model.games.TicTacToe;
 import model.games.ConnectFour;
 
-public class Menu {
+public class UserInteract {
     private Scanner scanner;
     private GameView gameView;
     private Game game;
 
-    public Menu() {
+    public UserInteract() {
         this.scanner = new Scanner(System.in);
         this.gameView = new GameView();
     }

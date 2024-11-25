@@ -1,8 +1,8 @@
-import view.Menu;
+import view.UserInteract;
 
 public class Main {
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        UserInteract menu = new UserInteract();
         menu.displayMenu();
 
     }
