@@ -1,13 +1,12 @@
 package controller;
 
-import model.games.Game;
-import model.games.TicTacToe;
-import model.games.Gomoku;
-import model.games.ConnectFour;
+import model.games.*;
+import model.player.*;
 import view.UserInteract;
 import view.GameView;
 
 public class GameController {
+    private Game game;
     private UserInteract menu;
     private GameView gameView;
 
