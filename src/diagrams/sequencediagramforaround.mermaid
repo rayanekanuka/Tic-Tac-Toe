@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant P as Player
+    participant GV as GameView
+    participant G as Game
+    participant B as Board
+
+    G->>GV: displayBoard(board)
+    G->>GV: displayMessage("Tour du Joueur")
+    P->>GV: makeMove(playerName, playerSymbole)
+    GV->>B: setOwner(row, col, P)
+    G->>G: isOver()
+    alt Game over
+        G->>GV: displayBoard(board)
+        G->>GV: endGame("Game Over")
+    else Continue game
+        G->>G: switchPlayer()
+        G->>GV: displayMessage("Tour du joueur suivant")
+    end

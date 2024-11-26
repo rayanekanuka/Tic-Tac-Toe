@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant U as UserInteract
+    participant G as Game
+    participant GV as GameView
+    participant T as TicTacToe
+    participant GF as Gomoku
+    participant CF as ConnectFour
+
+    U->>U: displayMenu()
+    U->>U: Get user choice
+    U->>T: Create TicTacToe
+    U->>T: startGame()
+    T->>GV: displayBoard()
+    T->>T: playerChoice(gameMode)
+    T->>G: play(gameMode)
+    G->>GV: displayBoard()
+    G->>T: isOver()
+    G->>GV: endGame(message)
+    U->>U: Quit or restart

@@ -1,0 +1,114 @@
+classDiagram
+    class Main {
+        +main(args: String[])
+    }
+    Main --> "1" GameController : "1"
+
+    class GameController {
+        -Game game
+        -GameView gameView
+        +GameController(GameView)
+        +initializeGame(type: String, sizeX: int, sizeY: int)
+        +startGame()
+        +endGame()
+    }
+    GameController --> "1" Game : "1"
+    GameController --> "1" GameView : "1"
+
+    class UserInteract {
+        -Scanner scanner
+        -GameController gameController
+        +UserInteract()
+        +displayMenu()
+        +getIntInput(): int
+        +startGame(): int
+        +decoMenu()
+    }
+    UserInteract --> "1" GameController : "1"
+
+    class GameView {
+        -Scanner scanner
+        -int sizeX
+        -int sizeY
+        -Board board
+        +GameView()
+        +decoration(String)
+        +displayBoard(Cell[][])
+        +makeMove(playerName: String, playerSymbol: String, sizeX: int, sizeY: int): int[]
+        +displayMessage(String)
+        +endGame(String)
+    }
+    GameView --> "1" Board : "1"
+
+    class Game {
+        #int sizeX
+        #int sizeY
+        #Board board
+        #Player currentPlayer
+        #Player playerX
+        #Player playerO
+        #GameView view
+        #String decoration
+        #int WinWin
+        +Game(GameView, int, int, int)
+        +playerChoice(gameMode: int)
+        +play(gameMode: int)
+        +getMoveFromPlayer(): int[]
+        +switchPlayer()
+        +isOver(): boolean
+    }
+    Game --> "1" Board : "1"
+    Game --> "2" Player : "1"
+    Game --> "1" GameView : "1"
+
+    class TicTacToe {
+        +TicTacToe(GameView)
+        +setDecoration()
+    }
+    TicTacToe --|> Game
+
+    class Gomoku {
+        +Gomoku(GameView)
+        +setDecoration()
+    }
+    Gomoku --|> Game
+
+    class ConnectFour {
+        +ConnectFour(GameView)
+        +setDecoration()
+    }
+    ConnectFour --|> Game
+
+    class Board {
+        +checkWin(): boolean
+        +isBoardFull(): boolean
+        +setOwner(row: int, col: int, Player)
+        +getBoard(): Cell[][]
+    }
+    Board --> "0..sizeX * sizeY" Cell : "1"
+
+    class Cell {
+        +getRepresentation(): String
+    }
+
+    class Player {
+        -CellState state
+        +Player(CellState)
+        +getRepresentation(): String
+        +getState(): CellState
+    }
+    Player <|-- HumanPlayer
+    Player <|-- ArtificialPlayer
+
+    class HumanPlayer {
+        +HumanPlayer(CellState)
+    }
+
+    class ArtificialPlayer {
+        +ArtificialPlayer(CellState)
+        +getMove(Cell[][], int, int): int[]
+    }
+
+    class CellState {
+        +getValue(): String
+    }
