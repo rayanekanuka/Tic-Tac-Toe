@@ -1,9 +1,9 @@
-import view.UserInteract;
+import controller.GameController;
 
 public class Main {
     public static void main(String[] args) {
-        UserInteract menu = new UserInteract();
-        menu.displayMenu();
+        GameController gameController = new GameController();
+        gameController.startGame();
 
     }
 }
