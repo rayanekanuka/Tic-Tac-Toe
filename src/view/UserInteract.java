@@ -51,24 +51,6 @@ public class UserInteract {
         }
     }
 
-    // private int getUserChoice(int min, int max) {
-    // int choice = -1;
-    // while (choice < min || choice > max) {
-    // try {
-    // System.out.print("Votre choix : ");
-    // String input = scanner.nextLine();
-    // choice = Integer.parseInt(input);
-    // if (choice < min || choice > max) {
-    // System.out.println("Choix invalide. Veuillez entrer un nombre entre " + min +
-    // " et " + max + ".");
-    // }
-    // } catch (NumberFormatException e) {
-    // System.out.println("Entrée invalide. Veuillez entrer un nombre.");
-    // }
-    // }
-    // return choice;
-    // }
-
     public int getIntInput() {
         while (!scanner.hasNextInt()) {
             scanner.next(); 
