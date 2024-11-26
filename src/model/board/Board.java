@@ -41,7 +41,7 @@ public class Board {
         if (row < 0 || row >= sizeX || col < 0 || col >= sizeY) {
             throw new IndexOutOfBoundsException("Coordonnées invalides");
         }
-        return board[row][col].getState() != State.EMPTY;
+        return board[row][col].getState() != CellState.EMPTY;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Board {
     public boolean isBoardFull() {
         for (int i = 0; i < sizeX; i++) {
             for (int j = 0; j < sizeY; j++) {
-                if (board[i][j].getState() == State.EMPTY) {
+                if (board[i][j].getState() == CellState.EMPTY) {
                     return false;
                 }
             }
@@ -145,7 +145,7 @@ public class Board {
      *         pas vides).
      */
     private boolean checkLineCells(Cell[] cells) {
-        if (cells[0].getState() == State.EMPTY) {
+        if (cells[0].getState() == CellState.EMPTY) {
             return false;
         }
         for (int i = 1; i < cells.length; i++) {

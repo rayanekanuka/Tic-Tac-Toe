@@ -1,13 +1,13 @@
 package model.board;
 
-public enum State {
+public enum CellState {
     EMPTY ("   "),
     X (" X "),
     O (" O ");
 
     private final String value;
 
-    private State(String value) {
+    private CellState(String value) {
         this.value = value;
     }
 

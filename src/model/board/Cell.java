@@ -2,13 +2,13 @@ package model.board;
 
 public class Cell {
 
-    private State state;
+    private CellState state;
 
     Cell(){
-        this.state = State.EMPTY;
+        this.state = CellState.EMPTY;
     }
 
-    public void setState(State state) {
+    public void setState(CellState state) {
         this.state = state;
     }
 
@@ -16,7 +16,7 @@ public class Cell {
         return this.state.getValue();
     }
 
-    public State getState(){
+    public CellState getState(){
         return this.state;
     }
 

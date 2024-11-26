@@ -1,10 +1,10 @@
 package model.player;
 
-import model.board.State;
+import model.board.CellState;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(State state) {
+    public HumanPlayer(CellState state) {
         super(state);
     }
     

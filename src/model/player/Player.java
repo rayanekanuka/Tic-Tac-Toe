@@ -1,11 +1,11 @@
 package model.player;
-import model.board.State;
+import model.board.CellState;
 
 public abstract class Player {
 
-    private State state;
+    private CellState state;
 
-    public Player(State state) {
+    public Player(CellState state) {
         this.state = state;
     }
 
@@ -13,7 +13,7 @@ public abstract class Player {
         return state.getValue();
     }
 
-    public State getState(){
+    public CellState getState(){
         return state;
     }
 

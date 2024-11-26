@@ -2,11 +2,11 @@ package model.player;
 import java.util.Random;
 
 import model.board.Cell;
-import model.board.State;
+import model.board.CellState;
 
 public class ArtificialPlayer extends Player {
 
-    public ArtificialPlayer(State state) {
+    public ArtificialPlayer(CellState state) {
         super(state);
     }
 
@@ -21,7 +21,7 @@ public class ArtificialPlayer extends Player {
             col = rand.nextInt(sizeY); // Colonne aléatoire
 
             // Vérifie si la case est vide
-            if (board[row][col].getRepresentation() == State.EMPTY.getValue()) {
+            if (board[row][col].getRepresentation() == CellState.EMPTY.getValue()) {
                 break;
             }
         }

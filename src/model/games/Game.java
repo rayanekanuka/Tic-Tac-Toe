@@ -1,7 +1,7 @@
 package model.games;
 
 import model.board.Board;
-import model.board.State;
+import model.board.CellState;
 import model.player.ArtificialPlayer;
 import model.player.HumanPlayer;
 import model.player.Player;
@@ -30,8 +30,8 @@ public abstract class Game {
         this.sizeY = sizeY;
         this.WinWin = WinWin;
         this.board = new Board(sizeX, sizeY);
-        this.playerO = new HumanPlayer(State.O);
-        this.playerX = new HumanPlayer(State.X);
+        this.playerO = new HumanPlayer(CellState.O);
+        this.playerX = new HumanPlayer(CellState.X);
     }
 
     /**
@@ -42,14 +42,14 @@ public abstract class Game {
      */
     public void playerChoice(int gameMode) {
         if (gameMode == 1) {
-            playerX = new HumanPlayer(State.X);
-            playerO = new ArtificialPlayer(State.O);
+            playerX = new HumanPlayer(CellState.X);
+            playerO = new ArtificialPlayer(CellState.O);
         } else if (gameMode == 2) {
-            playerX = new ArtificialPlayer(State.X);
-            playerO = new ArtificialPlayer(State.O);
+            playerX = new ArtificialPlayer(CellState.X);
+            playerO = new ArtificialPlayer(CellState.O);
         } else {
-            playerX = new HumanPlayer(State.X);
-            playerO = new HumanPlayer(State.O);
+            playerX = new HumanPlayer(CellState.X);
+            playerO = new HumanPlayer(CellState.O);
         }
 
         currentPlayer = playerX;
