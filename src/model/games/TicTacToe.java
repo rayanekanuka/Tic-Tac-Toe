@@ -30,6 +30,11 @@ public class TicTacToe extends Game {
 
     public String getDecoration() {
         return this.decoration;
-    }   
+    }
+
+    @Override
+    public boolean checkWin() {
+        return isOver();
+    }
 
 }

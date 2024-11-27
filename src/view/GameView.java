@@ -21,35 +21,36 @@ public class GameView {
     }
 
     public void displayBoard(Cell[][] board) {
-        int rows = board.length;  
+        int rows = board.length;
         int columns = board[0].length;
-    
+
         // Génère et affiche les en-têtes de colonnes dynamiquement
-        System.out.print("     ");  // Espace de début pour l'alignement
+        System.out.print("     "); // Espace de début pour l'alignement
         for (int i = 0; i < columns; i++) {
-            System.out.printf("%-5d", i + 1);  // Ajuste l'espacement pour l'alignement des colonnes
+            System.out.printf("%-5d", i + 1); // Ajuste l'espacement pour l'alignement des colonnes
         }
         System.out.println();
-    
+
         // Bordure supérieure du plateau
         System.out.print("  ");
         for (int i = 0; i < columns; i++) {
-            System.out.print("-----");  // Ajuste les tirets pour la bordure
+            System.out.print("-----"); // Ajuste les tirets pour la bordure
         }
         System.out.println();
-    
+
         // Affiche les lignes avec les numéros de lignes
         for (int i = 0; i < rows; i++) {
-            System.out.print((i + 1) + " |");  // Affiche le numéro de la ligne
+            System.out.print((i + 1) + " |"); // Affiche le numéro de la ligne
             for (Cell cell : board[i]) {
-                System.out.printf("%-4s|", cell.getRepresentation());  // Affiche le contenu de la cellule avec un espacement approprié
+                System.out.printf("%-4s|", cell.getRepresentation()); // Affiche le contenu de la cellule avec un
+                                                                      // espacement approprié
             }
-            System.out.println(); 
-    
+            System.out.println();
+
             // Affiche le séparateur de ligne
             System.out.print("  ");
             for (int j = 0; j < columns; j++) {
-                System.out.print("-----");  // Ajuste les tirets pour séparer les lignes
+                System.out.print("-----"); // Ajuste les tirets pour séparer les lignes
             }
             System.out.println();
         }
@@ -84,6 +85,12 @@ public class GameView {
         return new int[] { row, col };
     }
 
+    // Affiche le message de fin de partie
+    public void endGame(String message) {
+        System.out.println(message);
+        System.out.println("\nMerci d'avoir joué (^_^)\n");
+    }
+
     // Affiche le message de début de partie
     public void displayPlayerMove(String playerName, String playerSymbole) {
         System.out.print(" (" + playerName + "), entrez votre coup (ligne et colonne avec un espace) : ");
@@ -105,12 +112,6 @@ public class GameView {
     // Affiche le message
     public void displayMessage(String message) {
         System.out.println(message);
-    }
-
-    // Affiche le message de fin de partie
-    public void endGame(String message) {
-        System.out.println(message);
-        System.out.println("\nMerci d'avoir joué (^_^)\n");
     }
 
 }

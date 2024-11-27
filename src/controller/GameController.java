@@ -5,15 +5,11 @@ import model.player.*;
 import view.UserInteract;
 import view.GameView;
 
-public class GameController {
-    private Game game;
-    private UserInteract menu;
-    private GameView gameView;
+public abstract class GameController {
 
 
     public GameController() {
-        this.menu = new UserInteract();
-        this.gameView = new GameView();
+
     }
 
 }

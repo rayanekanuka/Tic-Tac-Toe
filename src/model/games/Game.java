@@ -77,8 +77,16 @@ public abstract class Game {
                 // Le Bot choisit un coup
                 move = ((ArtificialPlayer) currentPlayer).getMove(board.getBoard(), sizeX, sizeY);
             }
+
             // Attribue la cellule au joueur
-            board.setOwner(move[0], move[1], currentPlayer);
+
+            if (this instanceof ConnectFour) {
+                ((ConnectFour) this).placeStone(move[1], currentPlayer.getState());
+            } else {
+                board.setOwner(move[0], move[1], currentPlayer);
+            } 
+
+            //board.setOwner(move[0], move[1], currentPlayer);
             // wait(1000); // Pause de 1 seconde
 
             // Vérifie si le joueur a gagné ou si la partie est terminée
@@ -123,7 +131,7 @@ public abstract class Game {
      * @return true si la partie est terminée, false sinon.
      */
     public boolean isOver() {
-        if (board.checkWin()) {
+        if (board.checkWin(WinWin, currentPlayer.getState())) {
             view.displayBoard(board.getBoard()); // Affiche le plateau final
             view.endGame("\n Le Joueur" + currentPlayer.getRepresentation() + "a gagné !");
             return true;
@@ -135,4 +143,9 @@ public abstract class Game {
             return false; // La partie continue
         }
     }
+
+    public abstract boolean checkWin();
+    public abstract void setDecoration();
+    public abstract String getDecoration();
+
 }

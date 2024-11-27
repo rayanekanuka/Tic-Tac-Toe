@@ -75,85 +75,47 @@ public class Board {
     /**
      * Vérifie les conditions de victoire (lignes, colonnes, diagonales).
      * 
+     * @param winCondition Le nombre de cellules identiques nécessaires pour gagner.
+     * @param currentState L'état actuel du joueur.
      * @return true si un joueur a gagné, false sinon.
      */
-    public boolean checkWin() {
-        return checkLines() || checkColumns() || checkDiagonals();
-    }
-
-    /**
-     * Vérifie les lignes pour voir si un joueur a gagné.
-     * 
-     * @return true si une ligne satisfait la condition de victoire.
-     */
-    private boolean checkLines() {
+    public boolean checkWin(int winCondition, CellState currentState) {
         for (int i = 0; i < sizeX; i++) {
-            if (checkLineCells(board[i])) {
-                return true;
+            for (int j = 0; j < sizeY; j++) {
+                if (checkDirection(i, j, 0, 1, currentState, winCondition) // Horizontal
+                        || checkDirection(i, j, 1, 0, currentState, winCondition) // Vertical
+                        || checkDirection(i, j, 1, 1, currentState, winCondition) // Diagonale descendante
+                        || checkDirection(i, j, 1, -1, currentState, winCondition)) { // Diagonale ascendante
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    /**
-     * Vérifie les colonnes pour voir si un joueur a gagné.
-     * 
-     * @return true si une colonne satisfait la condition de victoire.
-     */
-    private boolean checkColumns() {
-        for (int j = 0; j < sizeY; j++) {
-            Cell[] column = new Cell[sizeX];
-            for (int i = 0; i < sizeX; i++) {
-                column[i] = board[i][j];
+    private boolean checkDirection(int i, int j, int u, int v, CellState currentState, int winCondition) {
+        for (int k = 0; k < winCondition; k++) {
+            if (!exist(i + u * k, j + v * k)) {
+                return false;
             }
-            if (checkLineCells(column)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Vérifie les diagonales pour voir si un joueur a gagné.
-     * 
-     * @return true si une diagonale satisfait la condition de victoire.
-     */
-    private boolean checkDiagonals() {
-        // Diagonale principale
-        Cell[] mainDiagonal = new Cell[sizeX];
-        for (int i = 0; i < sizeX; i++) {
-            mainDiagonal[i] = board[i][i];
-        }
-        if (checkLineCells(mainDiagonal)) {
-            return true;
-        }
-
-        // Diagonale secondaire
-        Cell[] secondaryDiagonal = new Cell[sizeX];
-        for (int i = 0; i < sizeX; i++) {
-            secondaryDiagonal[i] = board[i][sizeY - i - 1];
-        }
-        return checkLineCells(secondaryDiagonal);
-    }
-
-    /**
-     * Vérifie si toutes les cellules d'une ligne ou colonne contiennent le même
-     * symbole.
-     * 
-     * @param cells Les cellules à vérifier.
-     * @return true si toutes les cellules contiennent le même symbole (et ne sont
-     *         pas vides).
-     */
-    private boolean checkLineCells(Cell[] cells) {
-        if (cells[0].getState() == CellState.EMPTY) {
-            return false;
-        }
-        for (int i = 1; i < cells.length; i++) {
-            if (cells[i].getState() != cells[0].getState()) {
+            if (board[i + u * k][j + v * k].getState() != currentState) {
                 return false;
             }
         }
         return true;
     }
 
+    private boolean exist(int i, int j) {
+        return i >= 0 && i < sizeX && j >= 0 && j < sizeY;
+    }
+
+    public boolean placeStone(int col, CellState state) {
+        for (int row = sizeX - 1; row >= 0; row--) {
+            if (board[row][col].getState() == CellState.EMPTY) {
+                board[row][col].setState(state);
+                return true;
+            }
+        }
+        return false; // La colonne est pleine
+    }
 }
