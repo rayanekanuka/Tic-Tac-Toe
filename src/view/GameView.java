@@ -16,15 +16,19 @@ public class GameView {
         this.board = new Board(sizeX, sizeY);
     }
 
+    /*
+     * Affiche le menu principal du jeu et permet à l'utilisateur de choisir le jeu
+     */
     public void decoration(String decoration) {
         System.out.println(decoration);
     }
+
 
     public void displayBoard(Cell[][] board) {
         int rows = board.length;
         int columns = board[0].length;
 
-        // Génère et affiche les en-têtes de colonnes dynamiquement
+        // En-têtes de colonnes
         System.out.print("     "); // Espace de début pour l'alignement
         for (int i = 0; i < columns; i++) {
             System.out.printf("%-5d", i + 1); // Ajuste l'espacement pour l'alignement des colonnes
@@ -34,23 +38,23 @@ public class GameView {
         // Bordure supérieure du plateau
         System.out.print("  ");
         for (int i = 0; i < columns; i++) {
-            System.out.print("-----"); // Ajuste les tirets pour la bordure
+            System.out.print("-----"); 
         }
         System.out.println();
 
         // Affiche les lignes avec les numéros de lignes
         for (int i = 0; i < rows; i++) {
-            System.out.print((i + 1) + " |"); // Affiche le numéro de la ligne
+            System.out.print((i + 1) + " |"); 
             for (Cell cell : board[i]) {
-                System.out.printf("%-4s|", cell.getRepresentation()); // Affiche le contenu de la cellule avec un
-                                                                      // espacement approprié
+                // Affiche le contenu de la cellule avec un espacement approprié
+                System.out.printf("%-4s|", cell.getRepresentation());
             }
             System.out.println();
 
             // Affiche le séparateur de ligne
             System.out.print("  ");
             for (int j = 0; j < columns; j++) {
-                System.out.print("-----"); // Ajuste les tirets pour séparer les lignes
+                System.out.print("-----"); 
             }
             System.out.println();
         }
@@ -101,10 +105,12 @@ public class GameView {
         displayMessage("Erreur : coordonnées en dehors du plateau. Réessayez =)");
     }
 
+    // Message d'erreur pour une cellule déjà occupée
     public void displayOccupiedCell() {
         displayMessage("Erreur : case déjà occupée. Choisissez une autre case =)");
     }
 
+    // Message d'erreur pour une entrée invalide
     public void displayInvalidInput() {
         displayMessage("Erreur : saisie invalide. Veuillez entrer deux nombres entiers séparés par un espace =)");
     }

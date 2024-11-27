@@ -93,6 +93,17 @@ public class Board {
         return false;
     }
 
+    /**
+     * Vérifie si le joueur a gagné dans une direction donnée.
+     * 
+     * @param i             La ligne de la cellule.
+     * @param j             La colonne de la cellule.
+     * @param u             La direction en x.
+     * @param v             La direction en y.
+     * @param currentState  L'état actuel du joueur.
+     * @param winCondition  Le nombre de cellules identiques nécessaires pour gagner.
+     * @return true si le joueur a gagné dans la direction donnée, false sinon.
+     */
     private boolean checkDirection(int i, int j, int u, int v, CellState currentState, int winCondition) {
         for (int k = 0; k < winCondition; k++) {
             if (!exist(i + u * k, j + v * k)) {
@@ -105,10 +116,24 @@ public class Board {
         return true;
     }
 
+    /**
+     * Vérifie si les coordonnées sont valides.
+     * 
+     * @param i La ligne de la cellule.
+     * @param j La colonne de la cellule.
+     * @return true si les coordonnées sont valides, false sinon.
+     */
     private boolean exist(int i, int j) {
         return i >= 0 && i < sizeX && j >= 0 && j < sizeY;
     }
 
+    /**
+     * Place une pierre dans la colonne donnée.
+     * 
+     * @param col   La colonne où placer la pierre.
+     * @param state L'état de la cellule (joueur).
+     * @return true si la pierre a été placée, false sinon.
+     */
     public boolean placeStone(int col, CellState state) {
         for (int row = sizeX - 1; row >= 0; row--) {
             if (board[row][col].getState() == CellState.EMPTY) {

@@ -79,7 +79,6 @@ public abstract class Game {
             }
 
             // Attribue la cellule au joueur
-
             if (this instanceof ConnectFour) {
                 ((ConnectFour) this).placeStone(move[1], currentPlayer.getState());
             } else {
@@ -97,6 +96,11 @@ public abstract class Game {
         }
     }
 
+    /**
+     * Met en pause le jeu pendant un certain temps.
+     * 
+     * @param ms Le temps en millisecondes.
+     */
     public static void wait(int ms) {
         try {
             Thread.sleep(ms);

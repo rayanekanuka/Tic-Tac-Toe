@@ -17,6 +17,9 @@ public class UserInteract {
         this.gameView = new GameView();
     }
 
+    /*
+     * Affiche le menu principal du jeu et permet à l'utilisateur de choisir le jeu
+     */
     public void displayMenu() {
         while (true) {
             decoMenu();
@@ -51,6 +54,9 @@ public class UserInteract {
         }
     }
 
+    /*
+     * Récupère un entier saisi par l'utilisateur
+     */
     public int getIntInput() {
         while (!scanner.hasNextInt()) {
             scanner.next(); 
@@ -59,6 +65,9 @@ public class UserInteract {
         return scanner.nextInt();
     }
 
+    /*
+     * Récupère un entier saisi par l'utilisateur
+     */
     public int startGame() {
         decoMenu();
         System.out.println("CHOISISSEZ UN MODE DE JEU :");
@@ -71,6 +80,9 @@ public class UserInteract {
         return gameMode;
     }
 
+    /*
+     * Affiche le titre du jeu
+     */
     public void decoMenu() {
         System.out.println("\r\n" + //
                 "██████╗ ██╗      █████╗ ██╗   ██╗     ██████╗  █████╗ ███╗   ███╗███████╗███████╗\r\n" + //
